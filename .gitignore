@@ -1,0 +1,15 @@
+# Ignore Everything
+*
+
+# But not .cpp
+!*.cpp
+# or .h
+!*.h
+# Or directories
+!*/
+!.gitignore
+!README.md
+
+stdafx.h
+stdafx.cpp
+targetver.h
