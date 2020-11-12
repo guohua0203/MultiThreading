@@ -1,8 +1,5 @@
 ﻿#include "header.h"
 
-#define NUM_PHILOSOPHER 5
-#define NUM_ALLOWED_TO_EAT NUM_PHILOSOPHER - 1
-
 struct Semaphore {
 	mutex mtx;
 	condition_variable cv;
@@ -26,8 +23,12 @@ struct Semaphore {
 		amt++;
 		cv.notify_one();
 	}
-} semaphore(NUM_ALLOWED_TO_EAT);
+};
 
+#define NUM_PHILOSOPHER 5
+#define NUM_ALLOWED_TO_EAT NUM_PHILOSOPHER - 1
+
+Semaphore semaphore(NUM_ALLOWED_TO_EAT);
 vector<mutex> mtxForks(NUM_PHILOSOPHER);
 mutex mtxCout;
 
@@ -43,7 +44,6 @@ struct Philosopher {
 		unique_lock<mutex> lck2(mtxForks[(id + 1) % NUM_PHILOSOPHER]);
 		unique_lock<mutex> lck3(mtxCout);
 		cout << id << " is eating" << endl;
-
 		this_thread::sleep_for(std::chrono::seconds(1));
 		semaphore.inc();
 	}
@@ -70,5 +70,4 @@ int main()
 
 		cout << "End of an iteration." << endl;
 	}
-
 }
